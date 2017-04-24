@@ -82,15 +82,15 @@ console.log("\nCreating project in ", rootwd + "/");
 rl.question("\n1) Enter projectname: ", function (sitename) {
   console.log("Note: also using " + sitename + " as database name.");
   console.log("Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html");
-  
+
   rl.question("\n2) Enter root password for mysql so we can create a new database and user: ", function (dbrootpw) {
-    
+
     rl.question("\n3) Enter site database user: ", function (dbuser) {
-      
+
       rl.question("\n4) Enter site database password: ", function (dbpass) {
 
         rl.question("\n5) Enter dbhost for db: ", function (dbhost) {
-             
+
           rl.question("\n6) Enter hostname for site: ", function (hostname) {
           var con = mysql.createConnection({
             host: dbhost,
@@ -100,7 +100,7 @@ rl.question("\n1) Enter projectname: ", function (sitename) {
           });
 
           rl.question("\n7) Enter a location for storing documents: ", function (datadir) {
-          
+
             console.log("dbhost is "+dbhost);
             con.connect();
             con.query("create database " + sitename + " default charset utf8", function (err) {
@@ -167,7 +167,7 @@ rl.question("\n1) Enter projectname: ", function (sitename) {
                         console.log("Also check index.js and config.json to fine-tune extra parameters, encryption key, ...");
                         console.log("---")
                         console.log("Start your site using:");
-                        console.log("$ forever start " + sitename + ".js");
+                        console.log("$ pm2 start " + sitename + ".js");
                         console.log("    or");
                         console.log("$ node " + sitename + ".js");
                         console.log("-");

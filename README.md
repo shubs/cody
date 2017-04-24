@@ -28,52 +28,53 @@ By following these steps you will be running your own CMS system in no time. If 
 	$ cd codydev
   ```
 * Install cody and its dependencies
-  
+
   ```bash
 	$ npm install cody
-  ``` 
+  ```
 
 * Set up a new web site using the guided scaffolding
 
   ```bash
     $ node ./node_modules/cody/bin/create_site
-    
+
     Creating cody web tree in current directory
     1) Enter sitename: mysite
     Note: also using my site as database name.
     Note: by default the mysql root user has no password so you can just hit enter, if you forgot the root password see http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html
-    2) Enter root password for mysql so we can create a new database and user: 
+    2) Enter root password for mysql so we can create a new database and user:
     3) Enter site database user: mysitename
     4) Enter site database password: mysitepassword
     5) Enter hostname for site: mysite.local (or localhost)
     Site mysite has been prepared.
-    
+
     Please create DNS entries, or add to /etc/hosts:
     127.0.0.1     mysite.local
-    
+
     Also check index.js and config.json to fine-tune extra parameters, encryption key, ...
-    
-    Start your site using:
-    forever start mysite.js
-    or
-    node mysite.js
   ```
+
 * Add a DNS entry for given hostname, e.g.
 
   ```bash
     $ sudo bash -c 'echo 127.0.0.1 mysite.local >> /etc/hosts'
   ```
-* Run the server
-  
+
+* Run the server using [pm2](https://github.com/shubs/cody)
   ```bash
-    $ node mysite.js
+    # To launch your site on your server
+    $ pm2 start mysite.js --name "Cody"
+
+    # To stop your site on your server
+    $ pm2 stop Cody
+
+    # To restart pm2 restart your site
+    $ pm2 restart Cody
+
+    # And to reload your site without downtime
+    $ pm2 reload Cody
   ```
-  or if you want to automatically restart the server on changes
-  
-  ```bash
-    $ forever start mysite.js
-  ```
-  
+
 * Go to "http://mysite.local:3001" to see your current site and go to "http://mysite.local:3001/en/dashboard" to see the CMS of the site.
 
   the default users are: 'super', 'admin', 'test' and 'user' which all have password 'empty'
@@ -102,13 +103,13 @@ Have a look at the generated config.json file to see which configuration variabl
 
 ##### I get "ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)" when running the scaffold script
   > Your mysql server is not started.
-  
+
   * On Mac OS: go to "System Preferences" -> "Mysql" -> "Start"
   * On any unix machine: ```$ mysqld &```
 
 ##### After "5) Enter hostname for site" it prompts for "Enter password:"
   > You entered the incorrect password for your root user of the mysql database.
-  
+
   Try to figure out the correct password or reset it: http://dev.mysql.com/doc/refman/5.0/en/resetting-permissions.html
 
 ## Contributors
@@ -119,11 +120,10 @@ Have a look at the generated config.json file to see which configuration variabl
   * Dieter
   * Laurens
   * Jelle
-
   * devoidfury
   * Andretw
   * You? We are always happy to review and accept your issues/pull requests!
-  
+
 ## License
 
 Copyright (c) 2012-2015 Johan Coppieters, Howest Brugge. See the LICENSE.md file for license rights and
